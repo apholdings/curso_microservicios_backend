@@ -1,0 +1,44 @@
+version: '3.8'
+services:
+  # Django App
+  backend_email:
+   container_name: solopython_ms_email
+   build: .
+   command: >
+      sh -c "python manage.py runserver 0.0.0.0:8002"
+   volumes:
+    - .:/app
+   ports:
+    - 8002:8002
+   depends_on:
+    - db_email
+    - redis
+  
+  # Event Queue Kafka
+  queue_email:
+    build: .
+    command: >
+      sh -c "python consumer.py"
+    depends_on:
+      - db_email
+  
+  # Database (PostgreSQL)
+  db_email:
+   image: postgres
+   container_name: django_email_api_postgresql
+   restart: always
+   environment:
+      POSTGRES_DB: solopython_email_db
+      POSTGRES_USER: solopython
+      POSTGRES_PASSWORD: postgres
+   ports:
+    - 5434:5432
+   volumes:
+      - .dbdata:/var/lib/postgresql
+  
+  # Redis Cache
+  redis:
+    image: redis
+    container_name: django_email_api_redis
+    ports:
+      - 6381:6379

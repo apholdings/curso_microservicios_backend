@@ -1,0 +1,44 @@
+version: '3.8'
+services:
+  # Django App
+  backend_blog:
+   container_name: solopython_ms_blog
+   build: .
+   command: >
+      sh -c "python manage.py runserver 0.0.0.0:8001"
+   volumes:
+    - .:/app
+   ports:
+    - 8001:8001
+   depends_on:
+    - db_blog
+    - redis
+  
+  # Event Queue Kafka
+  queue_blog:
+    build: .
+    command: >
+      sh -c "python consumer.py"
+    depends_on:
+      - db_blog
+  
+  # Database (PostgreSQL)
+  db_blog:
+   image: postgres
+   container_name: django_blog_api_postgresql
+   restart: always
+   environment:
+      POSTGRES_DB: solopython_blog_db
+      POSTGRES_USER: solopython
+      POSTGRES_PASSWORD: postgres
+   ports:
+    - 5433:5432
+   volumes:
+      - .dbdata:/var/lib/postgresql
+  
+  # Redis Cache
+  redis:
+    image: redis
+    container_name: django_blog_api_redis
+    ports:
+      - 6380:6379

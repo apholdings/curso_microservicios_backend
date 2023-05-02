@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from slugify import slugify
 from core.producer import producer
-import json, uuid , re
+import json, uuid , re, os
 
 class UserAccountManager(BaseUserManager):
 
@@ -31,7 +31,7 @@ class UserAccountManager(BaseUserManager):
         item['email']=user.email
         item['username']=user.username
         producer.produce(
-            'auth',
+            os.environ.get('KAFKA_TOPIC'),
             key='create_user',
             value=json.dumps(item).encode('utf-8')
         )
