@@ -26,19 +26,9 @@ class MyUserProfileView(StandardAPIView):
 
 class GetUserProfileView(StandardAPIView):
     permission_classes = (permissions.AllowAny,)
-
-    def get(self, request, id, *args, **kwargs):
-        cache_key = f'user_profile_{id}'
-        profile_data = cache.get(cache_key)
- 
-        if not profile_data:
-            user = User.objects.get(id=id)
-            profile = Profile.objects.get(user=user)
-            serializer = UserProfileSerializer(profile).data
-            profile_data = serializer
-            cache.set(cache_key, profile_data, 60 * 15)  # Cache for 15 minutes
-
-        return self.send_response(profile_data)
+    def get(self, request, slug, *args, **kwargs):
+        print(slug)
+        return self.send_response('profile_data')
 
 
 class EditUsernameView(StandardAPIView):

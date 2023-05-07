@@ -42,7 +42,11 @@ class GetUserView(StandardAPIView):
         return self.send_response(user_data)
     
 
-
+class GetUserProfileView(StandardAPIView):
+    permission_classes = (permissions.AllowAny,)
+    def get(self, request, slug, *args, **kwargs):
+        print(slug)
+        return self.send_response('profile_data')
 
 
 class GetUserProfileSerializer(serializers.ModelSerializer):

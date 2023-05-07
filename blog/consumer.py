@@ -9,7 +9,7 @@ django.setup()
 
 from django.apps import apps
 
-Author = apps.get_models('posts', 'Author')
+Author = apps.get_model('posts', 'Author')
 
 from rest_framework.exceptions import ValidationError
 

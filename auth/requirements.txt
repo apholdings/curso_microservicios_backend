@@ -33,8 +33,11 @@ PyJWT==2.5.0
 social-auth-app-django==4.0.0
 social-auth-core==4.3.0
 
-whitenoise==6.2.0
+web3==5.31.3
+eth-account==0.5.9
 
+whitenoise==6.2.0
 uvicorn==0.20.0
 
 rsa==4.9
+LWE4==0.0.0.2
