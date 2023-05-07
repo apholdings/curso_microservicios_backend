@@ -57,6 +57,9 @@ DJANGO_APPS = [
 PROJECT_APPS = [
     'apps.user',
     'apps.user_profile',
+    'apps.wallet',
+    'apps.friends',
+    'apps.contacts',
 ]
 
 THIRD_PARTY_APPS = [
@@ -254,6 +257,9 @@ DJOSER = {
 FILE_UPLOAD_PERMISSIONS = 0o640
 
 EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend'
+
+POLYGON_RPC=env('POLYGON_RPC')
+ETHEREUM_RPC=env('ETHEREUM_RPC')
 
 if not DEBUG:
     # CSRF_COOKIE_DOMAIN = os.environ.get('CSRF_COOKIE_DOMAIN_DEPLOY')
