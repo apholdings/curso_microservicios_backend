@@ -39,12 +39,12 @@ class ListPostsView(StandardAPIView):
 
 
 class DetailPostView(StandardAPIView):
-    def get(self, request, id, *args, **kwargs):
-        cache_key = f'post_detail_{id}'
+    def get(self, request, slug, *args, **kwargs):
+        cache_key = f'post_detail_{slug}'
         post = cache.get(cache_key)
 
         if not post:
-            post = Post.objects.get(id=id)
+            post = Post.objects.get(slug=slug)
             cache.set(cache_key, post, 900)  # Cache for 15 minutes
 
         serializer = PostSerializer(post)
